@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+   <div class="w-full flex items-center justify-center min-h-screen bg-gradient-to-br from-cyan-300 via-yellow-200 to-yellow-400 text-black p-10" >
+    <div  class="flex flex-col gap-4 w-100 mx-auto mt-5 p-4 border border-transparent rounded-md hover:border-blue-500 bg-gradient-to-br from-teal-200 to-yellow-100 rounded-xl shadow-2xl">
+    <h3 class="text-3xl mb-5 text-center">Upload Profile Picture </h3>
+    <form autocomplete="off" action="/upload" method="post" enctype="multipart/form-data" class="flex flex-col items-center gap-4">
+     <input type="file" name="image" class="px-4 py-2 rounded-md bg-transparent border-2 border-zinc-800 hover:border-blue-600 mx-auto text-black items-center"> 
+     <input class="px-4 py-2 w-80 rounded-md bg-transparent border-2 border-zinc-800 hover:border-blue-600 mx-auto" type="submit" value="Upload File">
+   </form>
+  </div>
+   </div>
+</body>
+</html>
