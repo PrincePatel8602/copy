@@ -12,6 +12,7 @@ const postSchema=mongoose.Schema({
 
     },
     content:String,
+    image: String,
     likes:[
         {type:mongoose.Schema.Types.ObjectId,ref:"user"}
 

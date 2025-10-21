@@ -6,15 +6,27 @@
     <title>Document</title>
      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
-   <div class="w-full flex items-center justify-center min-h-screen bg-gradient-to-br from-cyan-300 via-yellow-200 to-yellow-400 text-black p-10" >
-    <div  class="flex flex-col gap-4 w-100 mx-auto mt-5 p-4 border border-transparent rounded-md hover:border-blue-500 bg-gradient-to-br from-teal-200 to-yellow-100 rounded-xl shadow-2xl">
-    <h3 class="text-3xl mb-5 text-center">Upload Profile Picture </h3>
-    <form autocomplete="off" action="/upload" method="post" enctype="multipart/form-data" class="flex flex-col items-center gap-4">
-     <input type="file" name="image" class="px-4 py-2 rounded-md bg-transparent border-2 border-zinc-800 hover:border-blue-600 mx-auto text-black items-center"> 
-     <input class="px-4 py-2 w-80 rounded-md bg-transparent border-2 border-zinc-800 hover:border-blue-600 mx-auto" type="submit" value="Upload File">
-   </form>
+<body class="min-h-screen flex flex-col items-center bg-gradient-to-br from-zinc-800 via-black to-zinc-900 text-white p-10">
+
+  <div class="flex flex-col gap-5 w-full max-w-md p-8 mt-10 rounded-2xl bg-white bg-opacity-80 backdrop-blur-sm shadow-2xl border border-transparent hover:border-blue-500 transition">
+    <h3 class="text-3xl font-semibold text-center text-gray-900">Upload Profile Picture</h3>
+
+    <form autocomplete="off" action="/upload" method="post" enctype="multipart/form-data" class="flex flex-col gap-4 items-center">
+      
+      <input 
+        type="file" 
+        name="image" 
+        class="w-full p-3 rounded-lg bg-transparent border-2 border-gray-400 text-gray-900 cursor-pointer hover:border-blue-600 transition"
+      >
+
+      <input 
+        type="submit" 
+        value="Upload File" 
+        class="w-full py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold cursor-pointer transition"
+      >
+
+    </form>
   </div>
-   </div>
+
 </body>
 </html>

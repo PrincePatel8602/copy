@@ -54,17 +54,47 @@ app.get('/edit/:id',isLoggedIn,async(req,res)=>{
     res.render("edit",{post})
     
 });
+// Delete a post
+app.get('/delete/:id', isLoggedIn, async (req, res) => {
+    try {
+        const post = await postModel.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).send("Post not found");
+        }
+
+        // Only allow post owner to delete
+        if (post.user.toString() !== req.user.userid) {
+            return res.status(403).send("You are not authorized to delete this post");
+        }
+
+        // Delete post using deleteOne
+        await postModel.deleteOne({ _id: req.params.id });
+
+        // Remove reference from user's posts array
+        await userModel.findByIdAndUpdate(req.user.userid, {
+            $pull: { posts: req.params.id }
+        });
+
+        res.redirect("/profile");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
 app.post('/update/:id',isLoggedIn,async(req,res)=>{
     let post=await postModel.findOneAndUpdate({_id: req.params.id},{content:req.body.content})
     res.redirect("/profile");
     
 });
-app.post('/post',isLoggedIn,async(req,res)=>{
+app.post('/post',isLoggedIn,upload.single("image"),async(req,res)=>{
     let user=await userModel.findOne({email:req.user.email});
     let {content}=req.body;
   let post=await postModel.create({
     user: user._id,
-    content
+    content,
+    image: req.file ? req.file.filename : null
    });
    user.posts.push(post._id);
    await user.save();
