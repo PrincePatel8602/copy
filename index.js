@@ -54,7 +54,7 @@ app.get('/edit/:id',isLoggedIn,async(req,res)=>{
     res.render("edit",{post})
     
 });
-// Delete a post
+
 app.get('/delete/:id', isLoggedIn, async (req, res) => {
     try {
         const post = await postModel.findById(req.params.id);
@@ -63,12 +63,12 @@ app.get('/delete/:id', isLoggedIn, async (req, res) => {
             return res.status(404).send("Post not found");
         }
 
-        // Only allow post owner to delete
+       e
         if (post.user.toString() !== req.user.userid) {
             return res.status(403).send("You are not authorized to delete this post");
         }
 
-        // Delete post using deleteOne
+        
         await postModel.deleteOne({ _id: req.params.id });
 
         // Remove reference from user's posts array
