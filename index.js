@@ -1,4 +1,9 @@
 const express =require('express');
+ require('dotenv').config();
+ const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error("MongoDB connection error:", err));
 const app=express();
 const userModel=require("./models/user");
 const postModel=require("./models/post");
@@ -19,7 +24,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   if (req.cookies.token) {
     try {
-      jwt.verify(req.cookies.token, "shhhh");
+      jwt.verify(req.cookies.token,  process.env.JWT_SECRET);
       return res.redirect("/profile");
     } catch (err) {}
   }
@@ -119,7 +124,7 @@ app.post('/register',async(req,res)=>{
              email,
         password:hash
         })
-       let token=jwt.sign({email:email,userid:user._id},"shhhh");
+       let token=jwt.sign({email:email,userid:user._id}, process.env.JWT_SECRET);
        res.cookie("token",token);
        res.redirect("/login");
         })
@@ -132,7 +137,7 @@ app.post('/login',async(req,res)=>{
     bcrypt.compare(password,user.password,function(err,result){
         if(result){ 
            
-             let token=jwt.sign({email:email,userid:user._id},"shhhh");
+             let token=jwt.sign({email:email,userid:user._id}, process.env.JWT_SECRET);
        res.cookie("token",token);
        res.status(200).redirect("/profile");
       
@@ -147,7 +152,7 @@ app.get('/logout',(req,res)=>{
 function isLoggedIn(req, res, next) {
   if (!req.cookies.token) return res.redirect("/login");
   try {
-    let data = jwt.verify(req.cookies.token, "shhhh");
+    let data = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
     req.user = data;
     next();
   } catch (err) {
@@ -155,4 +160,4 @@ function isLoggedIn(req, res, next) {
   }
 }
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);

@@ -1,0 +1,26 @@
+# Node modules (don't commit dependencies)
+node_modules/
+
+# Environment variables (keep secrets safe)
+.env
+
+# Uploaded images (optional — exclude user-generated content)
+public/images/uploads/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# VS Code settings (optional)
+.vscode/
+
+# Build artifacts (if you add TypeScript or bundlers later)
+dist/
+build/
