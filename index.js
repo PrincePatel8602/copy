@@ -16,8 +16,14 @@ app.use(cookieParser());
 
 
 
-app.get('/',(req,res)=>{
-    res.render("app");
+app.get('/', (req, res) => {
+  if (req.cookies.token) {
+    try {
+      jwt.verify(req.cookies.token, "shhhh");
+      return res.redirect("/profile");
+    } catch (err) {}
+  }
+  res.render("app");
 });
 app.get('/profile/upload',(req,res)=>{
     res.render("profileupload");
@@ -63,7 +69,7 @@ app.get('/delete/:id', isLoggedIn, async (req, res) => {
             return res.status(404).send("Post not found");
         }
 
-       e
+       
         if (post.user.toString() !== req.user.userid) {
             return res.status(403).send("You are not authorized to delete this post");
         }
@@ -71,7 +77,7 @@ app.get('/delete/:id', isLoggedIn, async (req, res) => {
         
         await postModel.deleteOne({ _id: req.params.id });
 
-        // Remove reference from user's posts array
+        
         await userModel.findByIdAndUpdate(req.user.userid, {
             $pull: { posts: req.params.id }
         });
@@ -138,14 +144,15 @@ app.get('/logout',(req,res)=>{
     res.cookie("token","");
     res.redirect("/login");
 });
-function isLoggedIn(req,res,next){
-      if(req.cookies.token==="")res.redirect("/login");
-      else{
-       let data=jwt.verify(req.cookies.token,"shhhh");
-       req.user=data;
-      
+function isLoggedIn(req, res, next) {
+  if (!req.cookies.token) return res.redirect("/login");
+  try {
+    let data = jwt.verify(req.cookies.token, "shhhh");
+    req.user = data;
     next();
-      }
+  } catch (err) {
+    res.redirect("/login");
+  }
 }
 
 app.listen(3000);
